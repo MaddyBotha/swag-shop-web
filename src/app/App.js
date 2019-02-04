@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Product from '../product/product';
+
 import HttpService from '../services/http-service';
 
 const http = new HttpService();
@@ -10,7 +12,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
+    
     // bind functions
     this.loadData = this.loadData.bind(this);
 
@@ -28,21 +30,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to The Swag Shop</h2>
-          <p>
-          Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+          <h2>Welcome to React</h2>
+        </div>
+        <div className="App-main">
+          <Product />
+        </div>
       </div>
     );
   }
