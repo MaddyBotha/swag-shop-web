@@ -1,36 +1,37 @@
 import React, {Component} from 'react';
 import './wishlist.css';
+import DataService from '../services/data-service';
+import NotificationService, {NOTIF_WISHLIST_CHANGED} from '../services/notification-service';
 
 //Component
 import ProductCondensed from '../product-condensed/product-condensed';
+
+let ns = new NotificationService();
 
 class WishList extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {wishList: [
-            {
-                title:"Lara's Bow & Arrow Set",
-                price: 33.99,
-                _id: "3kned3k3ddd"
-            },
-            {
-                title:"COD MW3 Weapons Set",
-                price: 34.99,
-                _id: "ddkew3545r"
-            },
-            {
-                title:"Fallout 4 Vault:101 Jumpsuit Set",
-                price: 54.99,
-                _id: "389dfgush3"
-            }
-        ]};
+        this.state = {wishList:[]};
 
         //bind functions
         this.createWishlist = this.createWishlist.bind(this);
+        this.onWishListChanged = this.onWishListChanged.bind(this);
     }
 
+    componentDidMount() {
+        ns.addObserver(NOTIF_WISHLIST_CHANGED, this, this.onWishListChanged);
+    }
+
+    componentWillUnmount() {
+        ns.removeObserver(this, NOTIF_WISHLIST_CHANGED);
+    }
+
+    onWishListChanged(newWishList) {
+        this.setState({wishList: newWishList});
+    }
+    
 
     createWishlist = () => {
         const list = this.state.wishList.map((product) =>
@@ -45,7 +46,7 @@ class WishList extends Component {
         <div className="card">
             <div className="card-block">
                 <h4 className="card-title">Wish List</h4>
-                <ul className="list-group">
+                <ul className="list-group list-group-flush">
                     {this.createWishlist()}
                 </ul>
             </div>
